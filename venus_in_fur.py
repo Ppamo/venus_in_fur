@@ -90,7 +90,7 @@ class venus():
 		print "test plan"
 		self.next_play_len = 20
 		self.next_fade = 5
-		next_track = (self.next_play[0] + 1) % 12
+		next_track = (self.next_play[0] + 1) % self.files_count
 		self.next_play = [next_track]
 		print "the dice says {}".format("".join(str(self.next_play)))
 
@@ -101,31 +101,28 @@ class venus():
 		q = randint(1, 6)
 		self.next_play = []
 		for i in range(q):
-			self.next_play.append(randint(0, 11))
+			self.next_play.append(randint(0, self.files_count - 1))
 		print "the dice says {}".format("".join(str(self.next_play)))
 
 	def play_audios(self):
 		print "playing files"
-		for i in range(12):
+		for i in range(self.files_count):
 			self.channels[i].play(self.sounds[i], -1)
 
 	def load_audios(self):
 		print "load_audios"
-		self.files = [	'audio/Track_0.ogg',
-				'audio/Track_1.ogg',
-				'audio/Track_2.ogg',
-				'audio/Track_3.ogg',
-				'audio/Track_4.ogg',
-				'audio/Track_5.ogg',
-				'audio/Track_6.ogg',
-				'audio/Track_7.ogg',
-				'audio/Track_8.ogg',
-				'audio/Track_9.ogg',
-				'audio/Track_10.ogg',
-				'audio/Track_11.ogg' ]
+		self.files = [	'audio/v1.2/Track 1.ogg',
+				'audio/v1.2/Track 2.ogg',
+				'audio/v1.2/Track 3.ogg',
+				'audio/v1.2/Track 4.ogg',
+				'audio/v1.2/Track 6.ogg',
+				'audio/v1.2/Track 8.ogg',
+				'audio/v1.2/Track 9.ogg',
+				'audio/v1.2/Track 11.ogg' ]
+		self.files_count = len(self.files)
 		self.channels = {}
 		self.sounds = {}
-		for i in range(12):
+		for i in range(self.files_count):
 			print "loading file {}".format(i)
 			self.sounds.update({i: pygame.mixer.Sound(self.files[i])})
 			self.channels.update({i: pygame.mixer.Channel(i)})
